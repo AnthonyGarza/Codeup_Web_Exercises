@@ -40,8 +40,54 @@
 			<textarea id="email_body" name="email_body" rows="5" cols="120">Email Content Here</textarea>
 		</p>
 		<p>
+	    	Would you like a copy of this email saved to your sent folder?
+	    	<label for="copy_to_send_folder">
+            <input type="checkbox" id="copy_to_send_folder" name="copy_to_send_folder" value="yes" checked>YES
+            </label>
+	    </p>
+		<p>
 	        <button type="submit">SEND</button>
 	    </p>
+	</form>
+	<h1>Multiple Choice Test</h1>
+	<form>
+		<p>What is the capital of Texas?</p>
+			<label for="q1a">
+			    <input type="radio" id="q1a" name="q1" value="houston">
+			    Houston
+			</label>
+			<label for="q1b">
+			    <input type="radio" id="q1b" name="q1" value="dallas">
+			    Dallas
+			</label>
+			<label for="q1c">
+			    <input type="radio" id="q1c" name="q1" value="austin">
+			    Austin
+			</label>
+			<label for="q1d">
+			    <input type="radio" id="q1d" name="q1" value="san antonio">
+			    San Antonio
+			</label>
+		<p>What are your favorite profesional sports?</p>
+			<label for="q1a">
+			    <input type="radio" id="q1a" name="q1" value="nfl">
+			    NFL
+			</label>
+			<label for="q1b">
+			    <input type="radio" id="q1b" name="q2" value="nba">
+			    NBA
+			</label>
+			<label for="q1c">
+			    <input type="radio" id="q1c" name="q3" value="mlb">
+			    MLB
+			</label>
+			<label for="q1d">
+			    <input type="radio" id="q1d" name="q4" value="nhl">
+			    NHL
+			</label>
+		<p>
+			<input type="submit" value="Submit">
+		</p>
 	</form>
 </body>
 </html>
