@@ -86,6 +86,27 @@
 			    NHL
 			</label>
 		<p>
+			<label for="drink">What is your alcoholic beverage of choice? </label>
+			<select id="drink" name="drink[]" multiple>
+			    <option value="beer">BEER</option>
+			    <option value="wine">WINE</option>
+			    <option value="Liqour">LIQOUR</option>
+			</select>
+		</p>
+		<p>
+			<input type="submit" value="Submit">
+		</p>
+	</form>
+	<h1>Select Testing</h1>
+	<form>
+		<p>
+			<label for="hunger">Are you hungry? </label>
+			<select id="hunger" name="hunger">
+			    <option value="1">YES</option>
+			    <option value="0" selected>NO</option>
+			</select>
+		</p>
+		<p>
 			<input type="submit" value="Submit">
 		</p>
 	</form>
