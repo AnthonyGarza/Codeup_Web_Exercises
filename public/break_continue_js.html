@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>break_continue_js.html</title>
+	</head>
+	<body>
+		<h1>break/continue in JavaScript</h1>
+		<script type="text/javascript">
+			// get a random number between 1-50
+			var random = Math.floor((Math.random()*50)+1);
+
+			// continue selecting a random number until it is an odd number
+			while (random % 2 == 0) {
+			  	random = Math.floor((Math.random()*50)+1);
+			}
+			console.log('Random odd number to skip is: ' + random);
+
+			// log all the odd numbers from 1 to 50, except the random odd number generated, by using break
+			// and continue
+			for (var i = 1; i < 50; i++) {
+				if (random == i) {
+					console.log('Yipes! Skipping number: ' + i);
+					continue;
+				} else if (i % 2 != 0) {
+					console.log('Here is an odd number: ' + i);
+				}
+			}
+		</script>
+	</body>
+</html>
