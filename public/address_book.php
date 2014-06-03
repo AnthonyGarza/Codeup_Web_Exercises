@@ -14,13 +14,29 @@
 
 
 
-$address_book = [
-    ['The White House', '1600 Pennsylvania Avenue NW', 'Washington', 'DC', '20500'],
-    ['Marvel Comics', 'P.O. Box 1527', 'Long Island City', 'NY', '11101'],
-    ['LucasArts', 'P.O. Box 29901', 'San Francisco', 'CA', '94129-0901']
-];
+$address_book = [];
+
 $new_address = [];
+
 $filename = "address_book.csv";
+
+function read_csv($filename) {
+    $entries = [];
+
+    $handle = fopen($filename, 'r');
+
+    while(!feof($handle)) {
+        $row = fgetcsv($handle);
+        if (is_array($row)) {
+            $entries[] = $row;
+        }
+    }
+
+    fclose($handle);
+    return $entries;
+}
+
+$address_book = read_csv($filename);
 
 function write_csv($BigArray, $filename) {
     if (is_writable($filename)) {
@@ -34,6 +50,8 @@ function write_csv($BigArray, $filename) {
 }
 
 var_dump($_POST);
+
+var_dump($address_book);
 
 
 if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['zip'])) {
