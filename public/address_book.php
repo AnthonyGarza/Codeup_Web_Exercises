@@ -98,11 +98,12 @@ if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']
                 <th>Zip</th>
                 <th>Phone</th>
             </tr>
-            <? foreach ($address_book as $fields) : ?>
+            <? foreach ($address_book as $index => $fields) : ?>
             <tr>
                 <? foreach ($fields as $value) : ?>
                     <td><?= $value; ?></td>
                 <? endforeach; ?>
+                <td><?="<a href=\"address_book.php?removeAddress=$index\">REMOVE ADDRESS</a>"; ?></td>
             </tr>
                 <? endforeach; ?>
         </table>
