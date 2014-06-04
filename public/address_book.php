@@ -1,55 +1,52 @@
 <?php
 
-// Create a new file named address_book.php in your codeup.dev public folder and open it file for editing. Commit changes and push to GitHub for each step.
+class AddressDataStore {
+    public $address_book = [];
 
-// Much like the address book in our example, you'll be creating an address book application that stores entries in a CSV file on your computer. In the same fashion as your todo.php application, you will want to display your entries at the top of the page, and have a form below for adding new entries. Each entry should take a name, address, city, state, zip, and phone. You can use a HTML table or definition lists for displaying the addresses.
+    public $new_address = [];
 
-// Create a function to store a new entry. A new entry should have validate 5 required fields: name, address, city, state, and zip. Display error if each is not filled out.
+    public $filename = "address_book.csv";
 
-// Use a CSV file to save to your list after each valid entry.
+    function read_address_book()
+    {
+        // Code to read file $this->filename
+        $entries = [];
 
-// Open the CSV file in a spreadsheet program or text editor and verify the contents are what you expect after adding some entries.
+        $handle = fopen($this->filename, 'r');
 
-// Refactor your code to use functions where applicable.
-
-
-
-$address_book = [];
-$new_address = [];
-$filename = "address_book.csv";
-
-function read_csv($filename) {
-    $entries = [];
-
-    $handle = fopen($filename, 'r');
-
-    while(!feof($handle)) {
-        $row = fgetcsv($handle);
-        if (is_array($row)) {
-            $entries[] = $row;
+        while(!feof($handle)) {
+            $row = fgetcsv($handle);
+            if (is_array($row)) {
+                $entries[] = $row;
+            }
         }
-    }
 
-    fclose($handle);
-    return $entries;
-}
-
-$address_book = read_csv($filename);
-
-function write_csv($BigArray, $filename) {
-    if (is_writable($filename)) {
-        $handle = fopen($filename, 'w');
-        foreach ($BigArray as $fields) {
-            fputcsv($handle, $fields);
-        }
         fclose($handle);
+        return $entries;
+    }
+
+    function write_address_book($bigArray)
+    {
+        // Code to write $addresses_array to file $this->filename
+        if (is_writable($this->filename)) {
+            $handle = fopen($this->filename, 'w');
+            foreach ($bigArray as $fields) {
+                fputcsv($handle, $fields);
+            }
+            fclose($handle);
+        }
     }
 
 }
 
-var_dump($_GET);
-var_dump($address_book);
+$AddressDataStore = new AddressDataStore();
+$address_book = $AddressDataStore->read_address_book();
+
+
 var_dump($_POST);
+
+var_dump($address_book);
+
 
 
 if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['zip'])) {
@@ -62,12 +59,12 @@ if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']
     $new_address['phone'] = htmlspecialchars(strip_tags($_POST['phone']));
 
     array_push($address_book, $new_address);
-    write_csv($address_book, $filename);
+    $AddressDataStore->write_address_book($address_book);
 
 } elseif (isset($_GET['removeAddress'])) {
         $removeAddress = $_GET['removeAddress'];
         unset($address_book[$removeAddress]);
-        write_csv($address_book, $filename);
+        $AddressDataStore->write_address_book($address_book);
 
 } else {
 
