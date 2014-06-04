@@ -2,7 +2,7 @@
 
 
 // call the file containing the AddressDataStore class
-include('classes/address_data_store.php');
+require_once('classes/address_data_store.php');
 
 $AddressDataStore = new AddressDataStore('address_book.csv');
 $address_book = $AddressDataStore->read_address_book();
