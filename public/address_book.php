@@ -55,12 +55,12 @@ var_dump($address_book);
 
 if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['zip'])) {
 
-    $new_address['name'] = htmlspecialchars(strip_tags($_POST['name']));
-    $new_address['address'] = htmlspecialchars(strip_tags($_POST['address']));
-    $new_address['city'] = htmlspecialchars(strip_tags($_POST['city']));
-    $new_address['state'] = htmlspecialchars(strip_tags($_POST['state']));
-    $new_address['zip'] = htmlspecialchars(strip_tags($_POST['zip']));
-    $new_address['phone'] = htmlspecialchars(strip_tags($_POST['phone']));
+    $new_address['name'] = $_POST['name'];
+    $new_address['address'] = $_POST['address'];
+    $new_address['city'] = $_POST['city'];
+    $new_address['state'] = $_POST['state'];
+    $new_address['zip'] = $_POST['zip'];
+    $new_address['phone'] = $_POST['phone'];
 
     array_push($address_book, $new_address);
     $AddressDataStore->write_address_book($address_book);
@@ -79,6 +79,30 @@ if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']
     }
 
 }
+
+if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
+        if ($_FILES['file1']['type'] == 'text/csv') {
+            // Set the destination directory for uploads
+            $upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+            // Grab the filename from the uploaded file by using basename
+            $filename = basename($_FILES['file1']['name']);
+            // Create the saved filename using the file's original name and our upload directory
+            $saved_filename = $upload_dir . $filename;
+            // Move the file from the temp location to our uploads directory
+            move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
+
+
+            $uploadedAddressBook = new AddressDataStore($saved_filename);
+
+            $addressUploaded = $uploadedAddressBook->read_address_book();
+            $address_book = array_merge($address_book, $addressUploaded);
+            $AddressDataStore->write_address_book($address_book);
+
+        } else {
+            echo "Please upload .csv file only!";
+        }
+}
+
 
 ?>
 
@@ -99,10 +123,10 @@ if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']
                 <th>Zip</th>
                 <th>Phone</th>
             </tr>
-            <? foreach ($address_book as $index => $fields) : ?>
+                <? foreach ($address_book as $index => $fields) : ?>
             <tr>
                 <? foreach ($fields as $value) : ?>
-                    <td><?= $value; ?></td>
+                    <td><?= htmlspecialchars(strip_tags($value)); ?></td>
                 <? endforeach; ?>
                 <td><?="<a href=\"address_book.php?removeAddress=$index\">REMOVE ADDRESS</a>"; ?></td>
             </tr>
@@ -140,5 +164,18 @@ if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']
                 <button type="Submit">Submit</button>
             </p>
         </form>
+
+        <h1>Upload File</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <p>
+                <label for="file1">File to upload: </label>
+                <input type="file" id="file1" name="file1">
+            </p>
+            <p>
+                <input type="submit" value="Upload">
+            </p>
+        </form>
+
     </body>
 </html>
