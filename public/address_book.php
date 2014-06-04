@@ -11,6 +11,7 @@ class AddressDataStore {
         $this->filename = $filename;
     }
 
+
     function read_address_book()
     {
         // Code to read file $this->filename
@@ -39,6 +40,10 @@ class AddressDataStore {
             }
             fclose($handle);
         }
+    }
+
+    public function __destruct() {
+        echo "Class Dismissed!";
     }
 
 }
@@ -102,6 +107,8 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
             echo "Please upload .csv file only!";
         }
 }
+
+unset($AddressDataStore);
 
 
 ?>
