@@ -15,9 +15,7 @@
 
 
 $address_book = [];
-
 $new_address = [];
-
 $filename = "address_book.csv";
 
 function read_csv($filename) {
@@ -49,9 +47,9 @@ function write_csv($BigArray, $filename) {
 
 }
 
-var_dump($_POST);
-
+var_dump($_GET);
 var_dump($address_book);
+var_dump($_POST);
 
 
 if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['zip'])) {
@@ -65,6 +63,11 @@ if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']
 
     array_push($address_book, $new_address);
     write_csv($address_book, $filename);
+
+} elseif (isset($_GET['removeAddress'])) {
+        $removeAddress = $_GET['removeAddress'];
+        unset($address_book[$removeAddress]);
+        write_csv($address_book, $filename);
 
 } else {
 
