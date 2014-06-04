@@ -1,5 +1,7 @@
 <?php
 
+
+// call the file containing the AddressDataStore class
 include('classes/address_data_store.php');
 
 $AddressDataStore = new AddressDataStore('address_book.csv');
