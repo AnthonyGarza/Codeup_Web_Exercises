@@ -1,0 +1,60 @@
+/*
+this is external css file for the css-positioning.html exercise
+*/
+
+h1 {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+div {
+	width: 50px;
+ 	height: 50px;
+ 	padding: 10px;
+ 	margin: 25px;
+ 	border: 1px solid black;
+ 	color: #FFF;
+ 	font-weight: bold;
+}
+
+#red-box {
+	margin-left: 0px;
+	background-color: red;
+	float: left;
+}
+#orange-box {
+	background-color: orange;
+	float: left;
+}
+#yellow-box {
+	background-color: yellow;
+	float: left;
+}
+#green-box {
+	margin-left: 0px;
+	background-color: green;
+	float: left;
+	clear: left;
+}
+#blue-box {
+	background-color: blue;
+	float: left;
+}
+#violet-box {
+	background-color: violet;
+	float: left;
+}
+.codeup-arrow-img {
+	border: none;
+	position: relative;
+	bottom: 120px;
+	left: 5px;
+}
+.codeup-ribbon {
+	border: none;
+	position: fixed;
+	top: -35px;
+	right: 64px;
+
+
+}
