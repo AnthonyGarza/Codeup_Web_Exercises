@@ -19,13 +19,20 @@
         		$(this).children().first().css('font-weight', 'bold');
         	});
 
+        	// $('li').click(function() {
+        	// 	$(this).parent().addClass('hide-text');
+        	// });
         	$('li').click(function() {
-        		$(this).parent().addClass('hide-text');
+        		$(this).parent().hide();
         	});
-        	$('#make-invisible').click(function(event) {
-                event.preventDefault();
-                $('.invisible').toggleClass('hide-text');
-            });
+
+        	// $('#make-invisible').click(function(event) {
+         //        event.preventDefault();
+         //        $('.invisible').toggleClass('hide-text');
+         //    });
+        	$('dt').click(function() {
+	        		$('dd').toggle();
+	        	});
 		});
     </script>
 </head>
