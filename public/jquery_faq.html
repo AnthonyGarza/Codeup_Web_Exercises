@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>jquery_faq.html</title>
+	<style>
+        .hide-text {
+            display: none;
+        }
+
+        dt {
+        	font-weight: bold;
+        }
+    </style>
+	<script src="/js/jquery-1.11.1.js"></script>
+	<script>
+        $(document).ready(function() {
+            $('#make-invisible').click(function(event) {
+                event.preventDefault();
+                $('.invisible').toggleClass('hide-text');
+            });
+        });
+    </script>
+</head>
+<body>
+	<h1>10 National Parks and FAQs:</h1>
+	<dl>
+		<dt>Badlands National Park</dt>
+		<dd class="invisible hide-text">They call it The Wall. It extends for a hundred miles through the dry plains of South Dakota—a huge natural barrier ridging the landscape, sculptured into fantastic pinnacles and tortuous gullies by the forces of water. Those who pass through the upper prairie a few miles north might not even know it exists. Those who traverse the lower prairie to the south, however, can't miss it; it rises above them like a city skyline in ruins, petrified.</dd>
+		<dt>Arches National Park</dt>
+		<dd class="invisible hide-text">This park contains more than 2,000 natural arches—the greatest concentration in the country. But numbers have no significance beside the grandeur of the landscape—the arches, the giant balanced rocks, spires, pinnacles, and slickrock domes against the enormous sky. This park is located in Utah.</dd>
+		<dt>Grand Canyon National Park</dt>
+		<dd class="invisible hide-text">The canyon is an immense gorge a mile deep and up to 18 miles wide. The scale is so vast that even from the best vantage point only a fraction of the canyon's 277 miles can be seen. This park is located in Arizona.</dd>
+		<dt>Yosemite National Park</dt>
+		<dd class="invisible hide-text">Home of the Half Dome and El Capitan. El Capitan is the largest exposed granite monolith in the world. The park is about the size of Rhode Island and is located in California.</dd>
+		<dt>Yellowstone National Park</dt>
+		<dd class="invisible hide-text">Home of the geyser "Old Faithful" which erupts almost every 91 minutes. There are more geysers and hot springs here than anywhere else on Earth. This park is located in Wyoming, Idaho and Montana.</dd>
+		<dt>Great Smoky Mountains National Park</dt>
+		<dd class="invisible hide-text">The Great Smoky Mountains are home to over 100 native species of trees, more than are found in northern Europe. At 480 feet, Fontana Dam, on the southwestern boundary of the park, is the tallest concrete dam east of the Rocky Mountains. This park is located in North Carolina and Tennessee.</dd>
+		<dt>Zion National Park</dt>
+		<dd class="invisible hide-text">The 287.4-foot-long Kolob Arch, perched high on a canyon wall in the park's backcountry, is one of the world's largest freestanding natural arches. This park is located in Utah.</dd>
+		<dt>Everglades National Park</dt>
+		<dd class="invisible hide-text">Everglades National Park is the only place in the world where alligators and crocodiles co-exist. This park is located in Florida.</dd>
+		<dt>Denali National Park</dt>
+		<dd class="invisible hide-text">Home of Mount McKinley, North America’s highest peak. This park is located in Alaska.</dd>
+		<dt>Death Valley National Park</dt>
+		<dd class="invisible hide-text">The largest national park south of Alaska. The highest mountain in the park, 11,049-foot Telescope Peak, lies only 15 miles from Badwater Basin, the lowest point in the U.S. The vertical drop from the peak to Badwater Basin is twice the depth of the Grand Canyon. This park is located in California and Nevada.</dd>
+	</dl>
+	 <a href="#" id="make-invisible">Click to toggle the park FAQs.</a>
+</body>
+</html>
