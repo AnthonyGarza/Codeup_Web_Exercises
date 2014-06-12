@@ -1,15 +1,43 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-	<title>jquery_exercises.html</title>
-	<script src="/js/jquery-1.11.1.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-	    alert( 'The DOM has finished loading!' );
-		});
-	</script>
+    <title>Exampe jQuery Page</title>
+
 </head>
 <body>
+    <h1 id="page-heading">Example Page</h1>
+    <button id="btnTest">Click Me!</button>
+    <p id="paragraph1">
+    	This is paragraph one.
+    </p>
+    <div id="sub heading">
+    	<h1>The following is a list</h1>
+    </div>
+    <ul>
+    	<li class="odd">
+    		Item 1
+    	</li>
+    	<li class="even">
+    		Item 2
+    	</li>
+    	<li class="odd">
+    		Item 3
+    	</li>
+    	<li class="even">
+    		Item 4
+    	</li>
+    </ul>
+    <p id="paragraph2">
+    	This is paragraph two.
+    </p>
+    <script src="/js/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+    	alert( $('#paragraph1').html());
+    	alert( $('.even').html());
+    	alert( $('.even').html("new items"));
+    	alert( $('#paragraph2').html('This is a new paragraph'));
+    </script>
 
 </body>
 </html>
