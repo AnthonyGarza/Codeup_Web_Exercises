@@ -8,10 +8,10 @@
 <body>
     <h1 id="page-heading">Example Page</h1>
     <button id="btnTest">Click Me!</button>
-    <p id="paragraph1">
+    <p class="codeup">
     	This is paragraph one.
     </p>
-    <div id="sub heading">
+    <div class="codeup">
     	<h1>The following is a list</h1>
     </div>
     <ul>
@@ -28,16 +28,12 @@
     		Item 4
     	</li>
     </ul>
-    <p id="paragraph2">
+    <p class="codeup">
     	This is paragraph two.
     </p>
     <script src="/js/jquery-1.11.1.js"></script>
     <script type="text/javascript">
-    	alert( $('#paragraph1').html());
-    	alert( $('.even').html());
-    	alert( $('.even').html("new items"));
-    	alert( $('#paragraph2').html('This is a new paragraph'));
+    	$('.codeup').css('border', '1px solid red');
     </script>
-
 </body>
 </html>
