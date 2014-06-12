@@ -15,11 +15,18 @@
 	<script src="/js/jquery-1.11.1.js"></script>
 	<script>
         $(document).ready(function() {
-            $('#make-invisible').click(function(event) {
+        	$('ul').each(function() {
+        		$(this).children().first().css('font-weight', 'bold');
+        	});
+
+        	$('li').click(function() {
+        		$(this).parent().addClass('hide-text');
+        	});
+        	$('#make-invisible').click(function(event) {
                 event.preventDefault();
                 $('.invisible').toggleClass('hide-text');
             });
-        });
+		});
     </script>
 </head>
 <body>
@@ -44,8 +51,29 @@
 		<dt>Denali National Park</dt>
 		<dd class="invisible hide-text">Home of Mount McKinley, North America’s highest peak. This park is located in Alaska.</dd>
 		<dt>Death Valley National Park</dt>
-		<dd class="invisible hide-text">The largest national park south of Alaska. The highest mountain in the park, 11,049-foot Telescope Peak, lies only 15 miles from Badwater Basin, the lowest point in the U.S. The vertical drop from the peak to Badwater Basin is twice the depth of the Grand Canyon. This park is located in California and Nevada.</dd>
+		<dd class="invisible hide-text">The largest national park south of Alaska. The highest mountain in the park, 11,049-foot Telescope Peak, lies only 15 miles from Badwater Basin, the lowest point in the U.S. The vertical drop from the peak to Bad>water Basin is twice the depth of the Grand Canyon. This park is located in California and Nevada.</dd>
 	</dl>
+	<h3>Badlands National Park</h3>
+	<ul>
+		<li>They call it The Wall.</li>
+		<li>It extends for a hundred miles through the dry plains of South Dakota.</li>
+		<li>It is a huge natural barrier ridging the landscape.</li>
+		<li>Home to one of the world's richest deposits of mammal fossil beds.</li>
+	</ul>
+	<h3>Arches National Park</h3>
+	<ul>
+		<li>This park contains more than 2,000 natural arches.</li>
+		<li>These arches make up the greatest concentration in the country.</li>
+		<li>Most of the formations at Arches are made of soft red sandstone deposited 150 million years ago.</li>
+		<li>This park is located in Utah.</li>
+	</ul>
+	<h3>Yosemite National Park</h3>
+	<ul>
+		<li>Home of the Half Dome and El Capitan.</li>
+		<li>El Capitan is the largest exposed granite monolith in the world.</li>
+		<li>The park is about the size of Rhode Island.</li>
+		<li>The park is located in California.</li>
+	</ul>
 	 <a href="#" id="make-invisible">Click to toggle the park FAQs.</a>
 </body>
 </html>
