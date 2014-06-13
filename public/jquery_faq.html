@@ -22,16 +22,20 @@
         	// $('li').click(function() {
         	// 	$(this).parent().addClass('hide-text');
         	// });
-        	$('li').click(function() {
-        		$(this).parent().hide();
-        	});
+        	// $('li').click(function() {
+        	// 	$(this).parent().hide();
+        	// });
+
+        	$('h3').click(function(event) {
+        		$(this).next().fadeToggle();
+    		});
 
         	// $('#make-invisible').click(function(event) {
          //        event.preventDefault();
          //        $('.invisible').toggleClass('hide-text');
          //    });
         	$('dt').click(function() {
-	        		$('dd').toggle();
+ +        			$('dd').fadeToggle();
 	        	});
 		});
     </script>
