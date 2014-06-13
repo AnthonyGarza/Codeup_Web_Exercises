@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Whack a Mole.html</title>
+</head>
+<body>
+    <img id="mole" style="display:none; cursor:pointer" src="img/mole.jpeg">
+
+    <script src="/js/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+        $('#mole').fadeIn(1500);
+
+        $('#mole').click(function (){
+            $(this).fadeOut();
+        });
+    </script>
+</body>
+</html>
