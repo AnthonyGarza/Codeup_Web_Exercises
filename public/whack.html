@@ -3,22 +3,90 @@
 <html>
 <head>
     <title>Whack a Mole.html</title>
+    <link rel="stylesheet" href="/css/css-whack.css">
 </head>
-<body>
-    <img id="mole" style="display:none; cursor:pointer" src="img/mole.jpeg">
+<body background="img/molebackground.png">
+    <h1>Whack A Mole!</h1>
+    <h2 id="score">Score: 0</h2>
+       <div id="main-div">
+        <div id="sub-div1"  class="hole"class="box1">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div2"  class="hole"class="box2">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div3"  class="hole"class="box3">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div4"  class="hole"class="box4" style="clear:left">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div5"  class="hole"class="box5">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div6"  class="hole"class="box6">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div7"  class="hole"class="box7" style="clear:left">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div8"  class="hole"class="box8">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+        <div id="sub-div9"  class="hole"class="box9">
+            <img class="mole" src="img/mole.jpeg">
+        </div>
+    </div>
 
     <script src="/js/jquery-1.11.1.js"></script>
     <script type="text/javascript">
-        // $('#mole').fadeIn(1000);
 
-        // $('#mole').click(function (){
-        //     $(this).fadeOut();
-        // });
-        $('#mole').slideDown(1500);
 
-        $('#mole').click(function (){
-            $(this).slideUp();
+        const MIN = 1;
+        const MAX = 9;
+
+        var random_box = 0; //assign random number
+        var score = 0; //keeps track of score
+        var count = 0; //start loop index
+        var max_count = 15; //max loop index
+        var interval = 2000; // interval time in milliseconds
+
+
+        // Returns a random integer between min and max
+        // Using Math.round() will give you a non-uniform distribution!
+        function getRandomInt(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        } // end of getRandomInt
+
+        function new_mole() {
+           //get a random number
+            random_box = getRandomInt(1, 9);
+            $(('#sub-div'+random_box)).children().fadeIn(1000);
+            $(('#sub-div'+random_box)).children().fadeOut(2000);
+       } //end of new_mole
+
+       //create a mole
+        var intervalId = setInterval(function () {
+            if (count >= max_count) {
+                clearInterval(intervalId);
+                alert('GAME OVER');
+                location.reload(); // reload page
+            } else {
+                count++;
+                new_mole();
+            }
+        }, interval);
+
+        // score when you click a mole
+        $('.mole').click(function(event) {
+            event.preventDefault();
+            score += 10;
+            $(this).hide();
+            console.log(score);
+            $('#score').text('Score: '+score);
         });
+
+
     </script>
 </body>
 </html>
