@@ -1,141 +1,164 @@
 <?php
 
-
-// call the file containing the AddressDataStore class
+//include classes
 require_once('classes/address_data_store.php');
 
-$AddressDataStore = new AddressDataStore('address_book.csv');
-$address_book = $AddressDataStore->read_address_book();
+//iniitailize class
+$address_data_store1 = new AddressDataStore();
 
+//variables
+$address_book = []; // holds array for addresses
+$uploaded_addreses = []; //new array for uploaded files
+$error_msg=''; //initailize variable to hold error messages
+$heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
+$isValid = false; //form validation
+$saved_file_items = [];//new array for uploaded address book
 
-var_dump($_POST);
+function storeEntry($form_data){
+    $form_count = 0; //initiate variable to find out if there is form data missing
+    $msg = '';
+    //var_dump($form_data);
+    foreach ($form_data as $data) {
+        if (!empty($data)) {
+            //echo 'missing data';
+            $form_count++;
+        } //end of if
+    } //end of foreach
 
-var_dump($address_book);
+    if ($form_count > 4) {
+        echo 'You have all your data' . PHP_EOL;
+        return true;
+    } //end of if
+    else {
+        echo 'You are missing data' . PHP_EOL;
+        return false;
+    } //end of else
+} //end of storeEntry
 
+//load from CSV file
+$address_book = $address_data_store1->read_address_book($address_book);
 
+//remove item from address array using GET
+if (isset($_GET['remove_item']) ){
+     $removeItem = $_GET['remove_item'];
+     unset($address_book[$removeItem]); //remove from todo array
+     $address_data_store1->write_address_book($address_book);
+     header('Location: /address_book.php');
+     exit(0);
+} //end of remove item
 
-if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['zip'])) {
+//add new address from POST
+if(!empty($_POST)){
+    if ($isValid = storeEntry($_POST)) {
+        if (empty($_POST['phone'])){
+            //array_pop($_POST);
+            $_POST['phone'] = '';
+        } //end of no phone
+        $new_address = [];
+        foreach ($_POST as $value) {
+            $new_address[] = $value;
+        } //end of foreach
+        $address_book[] = $new_address;
+        $address_data_store1->write_address_book($address_book);
+        header('Location: /address_book.php');
+        exit(0);
+    }  // end of valid input
+} //end of if empty
 
-    $new_address['name'] = $_POST['name'];
-    $new_address['address'] = $_POST['address'];
-    $new_address['city'] = $_POST['city'];
-    $new_address['state'] = $_POST['state'];
-    $new_address['zip'] = $_POST['zip'];
-    $new_address['phone'] = $_POST['phone'];
-
-    array_push($address_book, $new_address);
-    $AddressDataStore->write_address_book($address_book);
-
-} elseif (isset($_GET['removeAddress'])) {
-        $removeAddress = $_GET['removeAddress'];
-        unset($address_book[$removeAddress]);
-        $AddressDataStore->write_address_book($address_book);
-
-} else {
-
-    foreach ($_POST as $key => $value) {
-        if (empty($value)) {
-            echo "<h1>" . ucfirst($key) . " is empty.</h1>";
-        }
-    }
-
-}
-
+//move uploaded files to the upload directory
 if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
-        if ($_FILES['file1']['type'] == 'text/csv') {
-            // Set the destination directory for uploads
-            $upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
-            // Grab the filename from the uploaded file by using basename
-            $filename = basename($_FILES['file1']['name']);
-            // Create the saved filename using the file's original name and our upload directory
-            $saved_filename = $upload_dir . $filename;
-            // Move the file from the temp location to our uploads directory
-            move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
+    if ($_FILES['file1']['type'] == 'text/csv'){
+        $upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+        // Grab the filename from the uploaded file by using basename
+        $filename = basename($_FILES['file1']['name']);
+        // Create the saved filename using the file's original name and our upload directory
+        $saved_filename = $upload_dir . $filename;
+        // Move the file from the temp location to our uploads directory
+        move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
 
-
-            $uploadedAddressBook = new AddressDataStore($saved_filename);
-
-            $addressUploaded = $uploadedAddressBook->read_address_book();
-            $address_book = array_merge($address_book, $addressUploaded);
-            $AddressDataStore->write_address_book($address_book);
-
-        } else {
-            echo "Please upload .csv file only!";
-        }
-}
-
+        //create new instance of for uploaded CSV
+        $address_data_store2 = new AddressDataStore($saved_filename);
+        //parse uploaded CSV and assign to $uploaded_address array
+        $uploaded_addreses = $address_data_store2->read_address_book($uploaded_addreses);
+        //merge uploaded and local arrays
+        $address_book = array_merge($address_book, $uploaded_addreses);
+        //save to file
+        $address_data_store1->write_address_book($address_book);
+    } // end of if files are csv
+    else{
+        $error_msg = 'Upload error: wrong file type. Must be .csv';
+    }  // end of not csv type
+} //end of if something was uploaded
 
 ?>
+ <!doctype html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <title>Address Book</title>
+ </head>
+ <body>
+    <h1>Web Address Book</h1>
+    <!-- display error message if exists -->
+    <? if(!empty($error_msg)) : ?>
+        <h4>ERROR:</h4>
+        <?= $error_msg . PHP_EOL;?>
+        <?= PHP_EOL;?>
+    <? endif; ?>
 
-
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>AddressBook</title>
-    </head>
-    <body>
-        <h1>ADDRESS BOOK</h1>
-        <table>
+    <!-- output addresses on screen in a table -->
+    <table border="1">
+        <tr>
+            <? foreach ($heading as $value) :?>
+                <th><?= $value ?> </th>
+            <? endforeach;  ?>
+        </tr>
+        <? foreach ($address_book as $key => $address) :?>
             <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zip</th>
-                <th>Phone</th>
+            <? foreach ($address as $value) :?>
+                <!-- sanitize user input -->
+                <? $value = htmlspecialchars(strip_tags($value)); ?>
+                <td> <?= $value ?> </td>
+            <? endforeach;  ?>
+            <td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td>
             </tr>
-                <? foreach ($address_book as $index => $fields) : ?>
-            <tr>
-                <? foreach ($fields as $value) : ?>
-                    <td><?= htmlspecialchars(strip_tags($value)); ?></td>
-                <? endforeach; ?>
-                <td><?="<a href=\"address_book.php?removeAddress=$index\">REMOVE ADDRESS</a>"; ?></td>
-            </tr>
-                <? endforeach; ?>
-        </table>
+        <? endforeach; ?>
+    </table>
 
-        <h2>INPUT CONTACT INFO BELOW:</h2>
+    <h2>Input New Address</h2>
+    <form method="POST" action="/address_book.php">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Address Name" value= "<?=(!$isValid && !empty($_POST['name']) ? $_POST['name'] : $POST['name'] = '') ?>">
+        <br>
 
-        <form method="POST">
-            <p>
-                <label for="Name">Name</label>
-                <input id="Name" name="name" type="text" placeholder="Enter full Name">
-            </p>
-            <p>
-                <label for="Address">Address</label>
-                <input id="Address" name="address" type="text" placeholder="Address">
-            </p>
-            <p>
-                <label for="City">City</label>
-                <input id="City" name="city" type="text" placeholder="City">
-            </p>
-            <p>
-                <label for="State">State</label>
-                <input id="State" name="state" type="text" placeholder="State">
-            </p>
-            <p>
-                <label for="Zip Code">Zip Code</label>
-                <input id="Zip Code" name="zip" type="number" placeholder="Zip">
-            </p>
-            <p>
-                <label for="Phone Number">Phone Number</label>
-                <input id="Phone Number" name="phone" type="tel" placeholder="Phone Number">
-            </p>
-            <p>
-                <button type="Submit">Submit</button>
-            </p>
-        </form>
+        <label for="address">Address</label>
+        <input id="address" name="address" type="text" placeholder="Street Address"  value= "<?=(!$isValid && !empty($_POST['address']) ? $_POST['address'] : $POST['address'] = '') ?>">
+        <br>
 
-        <h1>Upload File</h1>
+        <label for="city">City</label>
+        <input id="city" name="city" type="text" placeholder="City" value= "<?=(!$isValid && !empty($_POST['city']) ? $_POST['city'] : $POST['city'] = '') ?>">
+        <br>
 
-        <form method="POST" enctype="multipart/form-data">
-            <p>
-                <label for="file1">File to upload: </label>
-                <input type="file" id="file1" name="file1">
-            </p>
-            <p>
-                <input type="submit" value="Upload">
-            </p>
-        </form>
-    </body>
-</html>
+        <label for="state">State</label>
+        <input id="state" name="state" type="text" placeholder="State" value= "<?=(!$isValid && !empty($_POST['state']) ? $_POST['state'] : $POST['state'] = '') ?>">
+        <br>
+
+        <label for="zip">Zip</label>
+        <input id="zip" name="zip" type="number" placeholder="Zip Code" value= "<?=(!$isValid && !empty($_POST['zip']) ? $_POST['zip'] : $POST['zip'] = '') ?>">
+        <br>
+
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" placeholder="Phone Number" value= "<?=(!$isValid && !empty($_POST['phone']) ? $_POST['phone'] : $POST['phone'] = '') ?>">
+        <br>
+        <button type="submit">Add Address</button>
+    </form>
+
+    <h2>Upload File</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="file1">File to upload: </label>
+        <input type="file" id="file1" name="file1">
+        <br>
+        <input type="submit" value="Upload">
+    </form> 
+ </body>
+ </html>
