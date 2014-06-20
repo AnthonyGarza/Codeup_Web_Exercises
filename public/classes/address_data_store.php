@@ -1,9 +1,8 @@
 <?php
 
-class AddressDataStore {
-    public $address_book = [];
 
-    public $new_address = [];
+class AddressDataStore {
+
 
     public $filename = '';
 
@@ -25,17 +24,17 @@ class AddressDataStore {
                 $entries[] = $row;
             }
         }
-
-        fclose($handle);
         return $entries;
+        fclose($handle);
+
     }
 
-    function write_address_book($bigArray)
+    function write_address_book($array)
     {
         // Code to write $addresses_array to file $this->filename
         if (is_writable($this->filename)) {
             $handle = fopen($this->filename, 'w');
-            foreach ($bigArray as $fields) {
+            foreach ($array as $fields) {
                 fputcsv($handle, $fields);
             }
             fclose($handle);
